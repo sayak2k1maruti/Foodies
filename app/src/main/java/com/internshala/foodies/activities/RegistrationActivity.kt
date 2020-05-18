@@ -138,8 +138,11 @@ class RegistrationActivity : AppCompatActivity() {
                                             return headers
                                         }
                                     }
-                            } catch (e: JSONException) {
 
+                                queue.add(jsonObjectRequest)
+
+                            } catch (e: JSONException) {
+                                    Toast.makeText(this@RegistrationActivity,"Some unexpected Error Occurs",Toast.LENGTH_LONG).show()
 
                             }
 

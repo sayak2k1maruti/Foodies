@@ -52,7 +52,7 @@
                     android:maxLength="30"
                     android:maxLines="1"
                     android:padding="6dp"
-                    android:textAllCaps="true" />
+                    />
             </LinearLayout>
 
             <LinearLayout
