@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".activities.LoginActivity">
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:src="@drawable/logo_final" />
+
+    <LinearLayout
+        android:id="@+id/svRecipies"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
+        android:padding="6dp"
+        android:orientation="horizontal">
+        <ViewFlipper
+
+            android:autoStart="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:flipInterval="2000"
+            android:layout_marginTop="2dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/res1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/res2" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res3"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res4"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res5"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res6"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res7"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res8"
+                android:padding="10dp"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/res9"
+                android:padding="10dp"/>
+        </ViewFlipper>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMobilenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_margin="5dp">
+            <LinearLayout
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="100"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_mobile"
+                    android:layout_weight="10"
+                    android:scaleType="fitCenter"/>
+                <EditText
+                    android:id="@+id/edtMobileNumber"
+                    android:layout_width="0dp"
+                    android:layout_weight="85"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:hint="@string/enterMobNumber"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:textSize="22sp"
+                    android:padding="8dp"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_below="@+id/cardMobilenumber"
+            android:id="@+id/cardPasswoard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_margin="5dp">
+            <LinearLayout
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_passwoard"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"/>
+
+            <EditText
+                android:id="@+id/edtPasswoard"
+                android:layout_width="0dp"
+                android:layout_weight="80"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:hint="@string/enterPasswoard"
+                android:inputType="textPassword"
+
+                android:maxLength="10"
+                android:maxLines="1"
+                android:textSize="22sp"
+                android:padding="8dp"/>
+                <ImageView
+                    android:id="@+id/showPassword"
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="10"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_show_passwoard"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <Button
+            android:layout_below="@+id/cardPasswoard"
+           android:layout_marginTop="20dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:id="@+id/btnLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/roundededge"
+            android:text="@string/log_in"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+
+            />
+
+
+        <TextView
+            android:id="@+id/txtForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnLogIn"
+            android:paddingTop="3dp"
+            android:text="@string/forgotpassword"
+            android:textColor="#ffffff"
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/txtRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="7dp"
+            android:padding="6dp"
+            android:text="@string/registerhere"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+</LinearLayout>

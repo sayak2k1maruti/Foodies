@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegistrationActivity">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/registrationActivityToolBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <LinearLayout
+
+                android:id="@+id/llNameOfUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:src="@drawable/namesymbol" />
+
+                <EditText
+                    android:id="@+id/edtEnterName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:hint="@string/enterName"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:padding="6dp"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llEmailOfUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/llNameOfUser"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:src="@drawable/emailsymbol" />
+
+                <EditText
+                    android:id="@+id/edtEnterEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:hint="@string/email_address"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="30"
+                    android:maxLines="1"
+                    android:padding="6dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llMobileNumberOfUser"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/llEmailOfUser"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:src="@drawable/mobilephonelogo" />
+
+                <EditText
+                    android:id="@+id/edtMobileNumberOfUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:hint="@string/mobile_number"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:padding="6dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDeliveryAddress"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/llMobileNumberOfUser"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:src="@drawable/locationsymbol" />
+
+                <EditText
+                    android:id="@+id/edtDeliveryAddressOfUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:hint="@string/delivery_address"
+                    android:inputType="textPostalAddress"
+                    android:maxLength="50"
+                    android:padding="6dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPasswordOfUser"
+                android:background="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/llDeliveryAddress"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <ImageView
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:background="#ffffff"
+                    android:src="@drawable/passwoardsymbol" />
+
+                <EditText
+                    android:id="@+id/edtPasswordOfUser"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="80"
+                    android:background="#ffffff"
+                    android:hint="@string/password_min_4"
+                    android:inputType="textPassword"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:padding="6dp" />
+
+                <ImageView
+                    android:id="@+id/registrationShowPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="10"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_show_passwoard" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/llPasswordOfUser"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:src="@drawable/passwoardsymbol" />
+
+                <EditText
+                    android:id="@+id/edtConfirmPasswordOfUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff"
+                    android:hint="@string/confirm_password"
+                    android:inputType="textPassword"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:padding="6dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/roundededge"
+                android:padding="6dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:text="@string/register"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/llConfirmPassword"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:orientation="horizontal"
+                android:padding="6dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="true">
+
+                <ViewFlipper
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:autoStart="true"
+                    android:background="#ffffff"
+                    android:flipInterval="2000">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res1" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res2" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res3" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res4" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res5" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res6" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res7" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res8" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/res9" />
+                </ViewFlipper>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</RelativeLayout>
