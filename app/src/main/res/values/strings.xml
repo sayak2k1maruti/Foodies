@@ -27,4 +27,7 @@
     <string name="register">REGISTER</string>
     <string name="next">NEXT</string>
     <string name="otp">OTP</string>
+    <string name="newpassword_min4">NewPassword(min4)</string>
+    <string name="choose_from_menu_listed_below">Choose From menu Listed Below:</string>
+    <string name="proceed_to_cart">Proceed To Cart</string>
 </resources>

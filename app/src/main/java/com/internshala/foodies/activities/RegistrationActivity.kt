@@ -129,7 +129,7 @@ class RegistrationActivity : AppCompatActivity() {
                                                     .show()
                                             }
                                         },Response.ErrorListener {
-
+                                            Toast.makeText(this@RegistrationActivity,"Some unexpected error Occurs",Toast.LENGTH_LONG).show()
                                         }) {
                                         override fun getHeaders(): MutableMap<String, String> {
                                             val headers = HashMap<String, String>()
@@ -142,8 +142,7 @@ class RegistrationActivity : AppCompatActivity() {
                                 queue.add(jsonObjectRequest)
 
                             } catch (e: JSONException) {
-                                    Toast.makeText(this@RegistrationActivity,"Some unexpected Error Occurs",Toast.LENGTH_LONG).show()
-
+                                    Toast.makeText(this@RegistrationActivity,"Some unexpected Error Occurs during Post the request to Server",Toast.LENGTH_LONG).show()
                             }
 
                         } else {

@@ -1,17 +1,19 @@
 package com.internshala.foodies.adapter
 
-import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.internshala.foodies.R
+import com.internshala.foodies.activities.RestaurentMenu
 import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
 import com.internshala.foodies.model.Restaurants
@@ -26,8 +28,9 @@ class HomeViewAdapter(
         var imgImageOfresturant: ImageView = view.findViewById(R.id.imgHomeFoodImage)
         var txtHomeResturantName: TextView = view.findViewById(R.id.txtHomeResturantName)
         var txtPriceForOne: TextView = view.findViewById(R.id.txtHeaderResturantPriceForOne)
-        var imgHomefavouriteImage: ImageView = view.findViewById(R.id.imgHomefavouriteImage)
+        var imgHomefavouriteIcon: ImageView = view.findViewById(R.id.imgHomefavouriteImage)
         var txtHomeResturantRating: TextView = view.findViewById(R.id.txtHomeResturantRating)
+        var parentLayout:RelativeLayout = view.findViewById(R.id.ParentRestaurentDetails)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
@@ -59,22 +62,31 @@ class HomeViewAdapter(
         )
         if((HomeAsyncTask(context.applicationContext,restaurant,1).execute().get()))
         {
-            holder.imgHomefavouriteImage.setImageResource(R.drawable.ic_favourite_fillup)
+            holder.imgHomefavouriteIcon.setImageResource(R.drawable.ic_favourite_fillup)
         }else{
-            holder.imgHomefavouriteImage.setImageResource(R.drawable.ic_default_hollo_favourite)
+            holder.imgHomefavouriteIcon.setImageResource(R.drawable.ic_default_hollo_favourite)
         }
 
-        holder.imgHomefavouriteImage.setOnClickListener {
+        holder.imgHomefavouriteIcon.setOnClickListener {
 
             if (! (HomeAsyncTask(context.applicationContext,restaurant,1).execute().get())){
                 HomeAsyncTask(context.applicationContext,restaurant,2).execute().get()
                 Toast.makeText(context,"Successfully added to favourite",Toast.LENGTH_SHORT).show()
-                holder.imgHomefavouriteImage.setImageResource(R.drawable.ic_favourite_fillup)
+                holder.imgHomefavouriteIcon.setImageResource(R.drawable.ic_favourite_fillup)
             }else{
                 HomeAsyncTask(context.applicationContext,restaurant,3).execute().get()
                 Toast.makeText(context.applicationContext,"Successfully removed to favourite",Toast.LENGTH_SHORT).show()
-                holder.imgHomefavouriteImage.setImageResource(R.drawable.ic_default_hollo_favourite)
+                holder.imgHomefavouriteIcon.setImageResource(R.drawable.ic_default_hollo_favourite)
             }
+        }
+        holder.parentLayout.setOnClickListener {
+            openMenu(resturantList[position].id)
+        }
+        holder.imgImageOfresturant.setOnClickListener {
+            openMenu(resturantList[position].id)
+        }
+        holder.txtHomeResturantRating.setOnClickListener {
+            openMenu(resturantList[position].id)
         }
     }
 
@@ -112,5 +124,12 @@ class HomeViewAdapter(
             return false
         }
 
+    }
+
+    fun openMenu(id:String){
+        /*function to open restaurentMenu*/
+        val intent = Intent(context,RestaurentMenu::class.java)
+        intent.putExtra("id",id)
+        context.startActivity(intent)
     }
 }
