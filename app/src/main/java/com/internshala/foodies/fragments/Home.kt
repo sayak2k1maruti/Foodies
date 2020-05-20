@@ -34,6 +34,7 @@ import kotlin.collections.HashMap
  */
 class Home : Fragment() {
     val restaurantLists: ArrayList<Restaurants> = arrayListOf()
+    var displayList:ArrayList<Restaurants> = arrayListOf()
     val ratingComparator = Comparator<Restaurants>{restaurant1,restaurant2 ->
             if(restaurant1.rating.compareTo(restaurant2.rating,true) == 0){
                 restaurant1.name.compareTo(restaurant2.name,true)
@@ -110,7 +111,8 @@ class Home : Fragment() {
 
 
                         /*Adapter and LayoutManager of RecyclerView is declared*/
-                        adapter = HomeViewAdapter(restaurantLists, activity as Context)
+                        displayList = restaurantLists
+                        adapter = HomeViewAdapter(displayList, activity as Context)
                         recycleViewOfResturents.adapter =
                             adapter
                         recycleViewOfResturents.layoutManager = LinearLayoutManager(activity as Context)
@@ -168,13 +170,28 @@ class Home : Fragment() {
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         val searchItem = menu.findItem(R.id.searchHome)
         if(searchItem!=null){
+
             val searchView = searchItem.actionView as SearchView
+            searchView.queryHint = "Search..."
             searchView.setOnQueryTextListener(object  : SearchView.OnQueryTextListener{
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText!!.isNotBlank() || newText.isNotEmpty()){
+                        displayList.clear()
+                        val search = newText.toLowerCase(Locale.ROOT)
+                        for(element in restaurantLists){
+                            if(search in element.name.toLowerCase(Locale.ROOT)) {
+                                    displayList.add(element)
+                            }
+                        }
+                        adapter.notifyDataSetChanged()
+                    }else{
+                        displayList.clear()
+                        displayList = restaurantLists
+                    }
                     return true
                 }
             })
