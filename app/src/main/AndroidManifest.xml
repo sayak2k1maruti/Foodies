@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.RestaurentMenu"></activity>
+        <activity android:name=".activities.OrderPlaced"></activity>
+        <activity android:name=".activities.Cart" />
+        <activity android:name=".activities.RestaurentMenu" />
         <activity android:name=".activities.OtpVerificationActivity" />
         <activity android:name=".activities.ForgotpasswordActivity" />
         <activity android:name=".activities.SplashScreen">

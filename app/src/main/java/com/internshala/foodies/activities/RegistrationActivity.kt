@@ -12,10 +12,7 @@ import android.text.method.PasswordTransformationMethod
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
@@ -40,6 +37,8 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var edtConfirmPasswordOfUser: EditText
     private lateinit var btnRegister: Button
     private lateinit var showPassword:ImageView
+    private lateinit var progressLayout:RelativeLayout
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +53,11 @@ class RegistrationActivity : AppCompatActivity() {
         btnRegister = findViewById(R.id.btnRegister)
         registrationActivityToolBar = findViewById(R.id.registrationActivityToolBar)
         showPassword = findViewById(R.id.registrationShowPassword)
+        progressBar = findViewById(R.id.progressBarReg)
+        progressLayout = findViewById(R.id.progressLayoutReg)
+
+        progressLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
 
         setSupportActionBar(registrationActivityToolBar)
         supportActionBar?.title = "Register Here"
@@ -87,7 +91,8 @@ class RegistrationActivity : AppCompatActivity() {
                     if (password == confirmPassword) {
 
                         if (Connectionmanager().checkConnectivity(this@RegistrationActivity as Context)) {
-
+                            progressLayout.visibility = View.VISIBLE
+                            progressBar.visibility = View.VISIBLE
                             try {
 
 
@@ -118,6 +123,9 @@ class RegistrationActivity : AppCompatActivity() {
                                                 startActivity(Intent(this@RegistrationActivity,SplashScreen::class.java))
                                             }
                                             else{
+                                                progressLayout.visibility = View.GONE
+                                                progressBar.visibility = View.GONE
+
                                                 AlertDialog.Builder(this@RegistrationActivity)
                                                     .setTitle("Error")
                                                     .setMessage(data.getString("errorMessage"))
@@ -142,10 +150,14 @@ class RegistrationActivity : AppCompatActivity() {
                                 queue.add(jsonObjectRequest)
 
                             } catch (e: JSONException) {
+                                progressLayout.visibility = View.GONE
+                                progressBar.visibility = View.GONE
                                     Toast.makeText(this@RegistrationActivity,"Some unexpected Error Occurs during Post the request to Server",Toast.LENGTH_LONG).show()
                             }
 
                         } else {
+                            progressLayout.visibility = View.GONE
+                            progressBar.visibility = View.GONE
 
                             /*if there is no internet Connection*/
                             AlertDialog.Builder(this@RegistrationActivity as Context)
@@ -164,6 +176,8 @@ class RegistrationActivity : AppCompatActivity() {
                         }
 
                     } else {
+                        progressLayout.visibility = View.GONE
+                        progressBar.visibility = View.GONE
                         Toast.makeText(
                             this@RegistrationActivity,
                             "!!Password and ConfirmPassword doesn't match!!",
@@ -171,6 +185,8 @@ class RegistrationActivity : AppCompatActivity() {
                         ).show()
                     }
                 } else {
+                    progressLayout.visibility = View.GONE
+                    progressBar.visibility = View.GONE
                     Toast.makeText(
                         this@RegistrationActivity,
                         "Name must contains atleast 3 character & Mobile Number must contains 10 character & passwordmustbe atleast 4 characters",
@@ -178,6 +194,8 @@ class RegistrationActivity : AppCompatActivity() {
                     ).show()
                 }
             } else {
+                progressLayout.visibility = View.GONE
+                progressBar.visibility = View.GONE
                 Toast.makeText(
                     this@RegistrationActivity,
                     "!All Fields must be filled up & email mustcontain atleast 6 characters!",

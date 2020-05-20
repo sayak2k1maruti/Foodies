@@ -20,7 +20,7 @@ import com.internshala.foodies.model.Restaurants
 import com.squareup.picasso.Picasso
 
 class HomeViewAdapter(
-    private val resturantList: ArrayList<Restaurants>,
+    private val restaurantList: ArrayList<Restaurants>,
     private val context: Context
 ) : RecyclerView.Adapter<HomeViewAdapter.HomeViewHolder>() {
 
@@ -43,22 +43,22 @@ class HomeViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return resturantList.size
+        return restaurantList.size
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.txtHomeResturantName.text = resturantList[position].name
-        holder.txtPriceForOne.text = resturantList[position].costforOne
-        holder.txtHomeResturantRating.text = resturantList[position].rating
-        Picasso.get().load(resturantList[position].imageUrl).error(R.drawable.ic_default_food_icon)
+        holder.txtHomeResturantName.text = restaurantList[position].name
+        holder.txtPriceForOne.text = restaurantList[position].costforOne
+        holder.txtHomeResturantRating.text = restaurantList[position].rating
+        Picasso.get().load(restaurantList[position].imageUrl).error(R.drawable.ic_default_food_icon)
             .into(holder.imgImageOfresturant)
 
         val restaurant = RestaurantsEntity(
-            resturantList[position].id.toInt(),
-            resturantList[position].name,
-            resturantList[position].rating,
-            resturantList[position].costforOne,
-            resturantList[position].imageUrl
+            restaurantList[position].id.toInt(),
+            restaurantList[position].name,
+            restaurantList[position].rating,
+            restaurantList[position].costforOne,
+            restaurantList[position].imageUrl
         )
         if((HomeAsyncTask(context.applicationContext,restaurant,1).execute().get()))
         {
@@ -80,13 +80,13 @@ class HomeViewAdapter(
             }
         }
         holder.parentLayout.setOnClickListener {
-            openMenu(resturantList[position].id)
+            openMenu(restaurantList[position].id,restaurantList[position].name)
         }
         holder.imgImageOfresturant.setOnClickListener {
-            openMenu(resturantList[position].id)
+            openMenu(restaurantList[position].id,restaurantList[position].name)
         }
         holder.txtHomeResturantRating.setOnClickListener {
-            openMenu(resturantList[position].id)
+            openMenu(restaurantList[position].id,restaurantList[position].name)
         }
     }
 
@@ -126,10 +126,11 @@ class HomeViewAdapter(
 
     }
 
-    fun openMenu(id:String){
+    fun openMenu(id:String,name:String){
         /*function to open restaurentMenu*/
         val intent = Intent(context,RestaurentMenu::class.java)
         intent.putExtra("id",id)
+        intent.putExtra("name",name)
         context.startActivity(intent)
     }
 }

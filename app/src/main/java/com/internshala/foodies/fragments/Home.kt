@@ -28,8 +28,21 @@ import org.json.JSONException
  * A simple [Fragment] subclass.
  */
 class Home : Fragment() {
-
-
+    val restaurantLists: ArrayList<Restaurants> = arrayListOf()
+    val ratingComparator = Comparator<Restaurants>{restaurant1,restaurant2 ->
+            if(restaurant1.rating.compareTo(restaurant2.rating,true) == 0){
+                restaurant1.name.compareTo(restaurant2.name,true)
+            }else{
+                restaurant1.rating.compareTo(restaurant2.rating,true)
+            }
+    }
+    val costComparator = Comparator<Restaurants>{restaurant1,restaurant2 ->
+        if(restaurant1.rating.compareTo(restaurant2.rating,true) == 0){
+            restaurant1.name.compareTo(restaurant2.name,true)
+        }else{
+            restaurant1.rating.compareTo(restaurant2.rating,true)
+        }
+    }
     lateinit var recycleViewOfResturents: androidx.recyclerview.widget.RecyclerView
     lateinit var homeProgressLayout: RelativeLayout
     lateinit var homeProgressBar: ProgressBar
@@ -44,7 +57,7 @@ class Home : Fragment() {
 
 
 
-        val restaurantLists: ArrayList<Restaurants> = arrayListOf()
+
         recycleViewOfResturents = homeFragment.findViewById(R.id.recyclerViewOfResrurentList)
         homeProgressLayout = homeFragment.findViewById(R.id.homeprogressLayout)
         homeProgressBar = homeFragment.findViewById(R.id.homeprogressBar)
@@ -137,7 +150,19 @@ class Home : Fragment() {
                 .show()
 
         }
+
         return homeFragment
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.sort,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if(id == R.id.sortRestaurant){
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

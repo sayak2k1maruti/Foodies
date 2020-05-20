@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarRestaurentMenu"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:minHeight="?attr/actionBarSize"
@@ -32,6 +33,7 @@
             android:textSize="22sp"
             android:textStyle="bold|italic"/>
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="visible"
             android:id="@+id/recyclerViewOfFoodMenu"
             android:layout_above="@+id/btnProceedToCart"
             android:layout_width="match_parent"

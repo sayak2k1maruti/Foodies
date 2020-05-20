@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.internshala.foodies.R
+import com.internshala.foodies.activities.RestaurentMenu
 import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
 import com.internshala.foodies.fragments.FavouriteRestaurents
@@ -31,6 +33,7 @@ class FavouriteViewAdapter(
         var txtPriceForOne: TextView = view.findViewById(R.id.txtHeaderResturantPriceForOne)
         var imgHomefavouriteImage: ImageView = view.findViewById(R.id.imgHomefavouriteImage)
         var txtHomeResturantRating: TextView = view.findViewById(R.id.txtHomeResturantRating)
+        var parentLayout: RelativeLayout = view.findViewById(R.id.ParentRestaurentDetails)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteViewHolder {
@@ -65,6 +68,15 @@ class FavouriteViewAdapter(
             favouritefragment.beginTransaction().replace(R.id.frameHome, FavouriteRestaurents())
                 .commit()
         }
+        holder.parentLayout.setOnClickListener {
+            openMenu(restaurantList[position].restaurant_id.toString(),restaurantList[position].restaurantName)
+        }
+        holder.imgImageOfresturant.setOnClickListener {
+            openMenu(restaurantList[position].restaurant_id.toString(),restaurantList[position].restaurantName)
+        }
+        holder.txtHomeResturantRating.setOnClickListener {
+            openMenu(restaurantList[position].restaurant_id.toString(),restaurantList[position].restaurantName)
+        }
     }
 
 
@@ -85,4 +97,12 @@ class FavouriteViewAdapter(
         }
 
     }
+    fun openMenu(id:String,name:String){
+        /*function to open restaurentMenu*/
+        val intent = Intent(context, RestaurentMenu::class.java)
+        intent.putExtra("id",id)
+        intent.putExtra("name",name)
+        context.startActivity(intent)
+    }
+
 }

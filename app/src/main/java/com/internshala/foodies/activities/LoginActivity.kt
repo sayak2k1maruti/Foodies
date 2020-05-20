@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.*
 import com.android.volley.Request
 import com.android.volley.Response
@@ -25,6 +26,8 @@ private lateinit var txtForgotPassword: TextView
 private lateinit var txtRegister: TextView
 private lateinit var btnLogIn: Button
 private lateinit var showpassword: ImageView
+private lateinit var progressLayout: RelativeLayout
+private lateinit var progressBar: ProgressBar
 
 class LoginActivity : AppCompatActivity() {
 
@@ -38,6 +41,10 @@ class LoginActivity : AppCompatActivity() {
         txtRegister = findViewById(R.id.txtRegister)
         btnLogIn = findViewById(R.id.btnLogIn)
         showpassword = findViewById(R.id.showPassword)
+        progressLayout = findViewById(R.id.progressLayoutLogin)
+        progressBar = findViewById(R.id.progressBarLogin)
+
+
         var showPassword = false
 
 
@@ -54,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
         btnLogIn.setOnClickListener {
+
             val mobileNumber = edtMobileNumber.text.toString()
             val password = edtPassword.text.toString()
             if (mobileNumber.length == 10) {
@@ -63,7 +71,8 @@ class LoginActivity : AppCompatActivity() {
                     val jsonPut = JSONObject()
                     jsonPut.put("mobile_number", mobileNumber)
                     jsonPut.put("password", password)
-
+                    progressLayout.visibility = View.VISIBLE
+                    progressBar.visibility = View.VISIBLE
                     if (Connectionmanager().checkConnectivity(this@LoginActivity as Context)) {
                         try {
                             val jsonObjectRequest =
@@ -114,6 +123,8 @@ class LoginActivity : AppCompatActivity() {
                                                 finish()
                                             }
                                             else {
+                                                progressLayout.visibility = View.GONE
+                                                progressBar.visibility = View.GONE
                                                 AlertDialog.Builder(this@LoginActivity)
                                                     .setTitle("Error")
                                                     .setPositiveButton("TryAgain") { text, listener ->
@@ -181,6 +192,8 @@ class LoginActivity : AppCompatActivity() {
                             queue.add(jsonObjectRequest)
 
                         } catch (e: JSONException) {
+                            progressLayout.visibility = View.GONE
+                            progressBar.visibility = View.GONE
                             Toast.makeText(
                                 this@LoginActivity,
                                 "Some unexpected Error occurs During Post the Request",
@@ -189,6 +202,8 @@ class LoginActivity : AppCompatActivity() {
                                 .show()
                         }
                     } else {
+                        progressLayout.visibility = View.GONE
+                        progressBar.visibility = View.GONE
                         AlertDialog.Builder(this@LoginActivity as Context)
                             .setTitle("Error")
                             .setMessage("No Internet Connection")
@@ -203,6 +218,9 @@ class LoginActivity : AppCompatActivity() {
                             .show()
                     }
                 } else {
+                    progressLayout.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+
                     Toast.makeText(
                         this@LoginActivity,
                         "Password must be atleast 4 character long",
@@ -210,6 +228,8 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
             } else {
+                progressLayout.visibility = View.GONE
+                progressBar.visibility = View.GONE
                 Toast.makeText(
                     this@LoginActivity,
                     "Length of phone number Must be 10",

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="5dp">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    >
+    <RelativeLayout
+        android:id="@+id/rlOrderHistoryHeading"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/txtPreviousOrderRestaurantName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurant"
+            android:textSize="20sp"
+            android:textColor="#000000"/>
+        <TextView
+            android:id="@+id/txtDateOfOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#000000"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="19/05/2020 "/>
+        <TextView
+            android:id="@+id/txtTimeOfOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_below="@+id/txtDateOfOrder"
+            android:textColor="#000000"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:text="00.00.00 "/>
+
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOFPreviousOrders"
+        android:layout_below="@+id/rlOrderHistoryHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+</androidx.cardview.widget.CardView>
