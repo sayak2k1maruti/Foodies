@@ -27,7 +27,10 @@
         </activity>
         <activity android:name=".activities.RegistrationActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.HomePage" />
+        <activity android:name=".activities.HomePage">
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
         <activity android:name=".activities.MainActivity" />
     </application>
 

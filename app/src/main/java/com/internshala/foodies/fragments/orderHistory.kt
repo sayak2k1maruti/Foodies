@@ -44,10 +44,10 @@ class orderHistory : Fragment() {
         progressBar = view.findViewById(R.id.progressBarOrderHistory)
 
         val sharedPreferences =
-            activity!!.getSharedPreferences("logInDetails", Context.MODE_PRIVATE)
+            activity?.getSharedPreferences("logInDetails", Context.MODE_PRIVATE)
 
         val queue = Volley.newRequestQueue(activity as Context)
-        val userId = sharedPreferences.getString("user_id","0")
+        val userId = sharedPreferences?.getString("user_id","1")
         val previousOrdersList:ArrayList<PreviousOrders> = arrayListOf()
         val url = "http://13.253.250.119/v2/orders/fetch_result/${userId}"
         if (Connectionmanager().checkConnectivity(activity as Context)) {
@@ -87,7 +87,7 @@ class orderHistory : Fragment() {
                                     recyclerViewPreviousRestaurants.layoutManager = LinearLayoutManager(activity as Context)
                                     recyclerViewPreviousRestaurants.adapter = OrderHistoryAdapter(activity as Context,previousOrdersList)
                                 }else{
-                                    Toast.makeText(activity,"Some unexpected Volley error Occurs",Toast.LENGTH_LONG)
+                                    Toast.makeText(activity,"Some unexpected Error Occurs",Toast.LENGTH_LONG)
                                         .show()
                                 }
                             },
@@ -104,6 +104,7 @@ class orderHistory : Fragment() {
                         }
 
                     queue.add(jsonObjectRequest)
+
                 }catch (e : JSONException){
                     /*If some  Error Occurs*/
                     AlertDialog.Builder(activity as Context)
