@@ -30,5 +30,8 @@
         android:id="@+id/menuLogOut"
         android:title="@string/log_out"
         android:icon="@drawable/ic_log_out"/>
+    <item
+        android:title="ContactDeveloper"
+        android:id="@+id/contactDeveloper"/>
 </group>
 </menu>

@@ -1,15 +1,14 @@
 package com.internshala.foodies.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.internshala.foodies.R
@@ -18,12 +17,32 @@ import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
 import com.internshala.foodies.model.Restaurants
 import com.squareup.picasso.Picasso
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeViewAdapter(
     private val restaurantList: ArrayList<Restaurants>,
     private val context: Context
-) : RecyclerView.Adapter<HomeViewAdapter.HomeViewHolder>() {
+) : RecyclerView.Adapter<HomeViewAdapter.HomeViewHolder>(),Filterable{
+    val ratingComparator = Comparator<Restaurants> { restaurant1, restaurant2 ->
+        if (restaurant1.rating.compareTo(restaurant2.rating, true) == 0) {
+            restaurant1.name.compareTo(restaurant2.name, true)
+        } else {
+            restaurant1.rating.compareTo(restaurant2.rating, true)
+        }
+    }
 
+    val costComparator = Comparator<Restaurants> { restaurant1, restaurant2 ->
+        if (restaurant1.costforOne.compareTo(restaurant2.costforOne, true) == 0) {
+            restaurant1.name.compareTo(restaurant2.name, true)
+        } else {
+            restaurant1.costforOne.compareTo(restaurant2.costforOne, true)
+        }
+    }
+    var filerRestaurants = ArrayList<Restaurants>()
+    init {
+        filerRestaurants = restaurantList
+    }
     class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var imgImageOfresturant: ImageView = view.findViewById(R.id.imgHomeFoodImage)
         var txtHomeResturantName: TextView = view.findViewById(R.id.txtHomeResturantName)
@@ -43,22 +62,22 @@ class HomeViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return restaurantList.size
+        return filerRestaurants.size
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.txtHomeResturantName.text = restaurantList[position].name
-        holder.txtPriceForOne.text = restaurantList[position].costforOne
-        holder.txtHomeResturantRating.text = restaurantList[position].rating
-        Picasso.get().load(restaurantList[position].imageUrl).error(R.drawable.ic_default_food_icon)
+        holder.txtHomeResturantName.text = filerRestaurants[position].name
+        holder.txtPriceForOne.text = filerRestaurants[position].costforOne
+        holder.txtHomeResturantRating.text = filerRestaurants[position].rating
+        Picasso.get().load(filerRestaurants[position].imageUrl).error(R.drawable.ic_default_food_icon)
             .into(holder.imgImageOfresturant)
 
         val restaurant = RestaurantsEntity(
-            restaurantList[position].id.toInt(),
-            restaurantList[position].name,
-            restaurantList[position].rating,
-            restaurantList[position].costforOne,
-            restaurantList[position].imageUrl
+            filerRestaurants[position].id.toInt(),
+            filerRestaurants[position].name,
+            filerRestaurants[position].rating,
+            filerRestaurants[position].costforOne,
+            filerRestaurants[position].imageUrl
         )
         if((HomeAsyncTask(context.applicationContext,restaurant,1).execute().get()))
         {
@@ -80,13 +99,13 @@ class HomeViewAdapter(
             }
         }
         holder.parentLayout.setOnClickListener {
-            openMenu(restaurantList[position].id,restaurantList[position].name)
+            openMenu(filerRestaurants[position].id,filerRestaurants[position].name)
         }
         holder.imgImageOfresturant.setOnClickListener {
-            openMenu(restaurantList[position].id,restaurantList[position].name)
+            openMenu(filerRestaurants[position].id,filerRestaurants[position].name)
         }
         holder.txtHomeResturantRating.setOnClickListener {
-            openMenu(restaurantList[position].id,restaurantList[position].name)
+            openMenu(filerRestaurants[position].id,filerRestaurants[position].name)
         }
     }
 
@@ -133,4 +152,71 @@ class HomeViewAdapter(
         intent.putExtra("name",name)
         context.startActivity(intent)
     }
+
+    override fun getFilter(): Filter {
+        return object :Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val search = constraint.toString()
+                if(search.isEmpty()){
+                    filerRestaurants = restaurantList
+                }else{
+                    val resultList = ArrayList<Restaurants>()
+                    for(row in restaurantList) {
+                        if (row.name.toLowerCase(Locale.ROOT).contains(search.toLowerCase(Locale.ROOT))){
+                            resultList.add(row)
+                        }
+                    }
+                    filerRestaurants = resultList
+
+                }
+                val filterResult = FilterResults()
+                filterResult.values = filerRestaurants
+                return filterResult
+            }
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filerRestaurants = results?.values as ArrayList<Restaurants>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+    fun sort()
+    {
+        val buttoms = arrayOf("Cost(Low to High)", "Cost(High to Low)", "Rating")
+        var selected = -1
+        AlertDialog.Builder(context)
+            .setTitle("SortBy?")
+            .setSingleChoiceItems(
+                buttoms,
+                -1,
+                DialogInterface.OnClickListener { dialog, which ->
+                    selected = which
+                })
+            .setPositiveButton("Ok") { text, listener ->
+                when (selected) {
+                    2 -> {
+                        Collections.sort(filerRestaurants, ratingComparator)
+                        filerRestaurants.reverse()
+                        notifyDataSetChanged()
+                    }
+                    0 -> {
+                        Collections.sort(filerRestaurants, costComparator)
+                        notifyDataSetChanged()
+                    }
+                    1 -> {
+                        Collections.sort(filerRestaurants, costComparator)
+                        filerRestaurants.reverse()
+                        notifyDataSetChanged()
+                    }
+                    -1 -> {
+                        Toast.makeText(context, "No option selected", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+            .create()
+            .show()
+    }
+
 }

@@ -54,9 +54,9 @@ class ForgotpasswordActivity : AppCompatActivity() {
         val url = "http://13.235.250.119/v2/forgot_password/fetch_result"
         val jsonPost = JSONObject()
         btnnext.setOnClickListener {
-            val mobileNumber = edtMobileNumber.toString()
-            val email = edtEmailId.toString()
-            if (mobileNumber.length == 10) {
+            var mobileNumber = edtMobileNumber.toString()
+            var email = edtEmailId.toString()
+            if (mobileNumber.length > 9 ) {
                 if (email.length >= 4) {
                     jsonPost.put("mobile_number", mobileNumber)
                     jsonPost.put("email", email)

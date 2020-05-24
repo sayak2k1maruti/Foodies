@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="110dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
-    android:layout_margin="10dp">
+    android:layout_margin="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:id="@+id/txtHeaderResturantPriceForOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_default_dollar"
+                android:drawableStart="@drawable/ic_rupee"
                 android:text="250"
                 android:textSize="16sp"
                 android:layout_below="@+id/txtHomeResturantName"
@@ -60,14 +60,14 @@
             <ImageView
                 android:id="@+id/imgHomefavouriteImage"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:src="@drawable/ic_default_hollo_favourite"
                 android:scaleType="fitCenter"
                 />
             <TextView
                 android:id="@+id/txtHomeResturantRating"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="55dp"
                 android:background="@drawable/ic_star"
                 android:text="4.5"
                 android:textStyle="bold"

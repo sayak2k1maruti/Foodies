@@ -5,8 +5,8 @@
         android:id="@+id/searchHome"
         android:icon="@drawable/ic_search"
         android:title="Search Restaurent"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.widget.SearchView" />
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 <item
     android:id="@+id/sortRestaurant"
     android:title="Sort"

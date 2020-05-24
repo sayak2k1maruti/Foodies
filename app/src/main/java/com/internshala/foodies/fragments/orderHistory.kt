@@ -49,7 +49,7 @@ class orderHistory : Fragment() {
         val queue = Volley.newRequestQueue(activity as Context)
         val userId = sharedPreferences?.getString("user_id","1")
         val previousOrdersList:ArrayList<PreviousOrders> = arrayListOf()
-        val url = "http://13.253.250.119/v2/orders/fetch_result/${userId}"
+        val url = "http://13.235.250.119/v2/orders/fetch_result/${userId}"
         if (Connectionmanager().checkConnectivity(activity as Context)) {
                 try {
                     val jsonObjectRequest =
