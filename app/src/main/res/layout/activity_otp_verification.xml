@@ -105,10 +105,25 @@
         android:layout_marginStart="25dp"/>
     <TextView
         android:id="@+id/txtAboutOTP"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_above="@+id/linearCenter"
         />
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/progressLayoutOTPVerification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBarOTPVerification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 </RelativeLayout>

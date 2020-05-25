@@ -8,9 +8,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,10 +20,14 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class ForgotpasswordActivity : AppCompatActivity() {
+
     private lateinit var edtMobileNumber: EditText
     private lateinit var edtEmailId: EditText
     private lateinit var btnnext: Button
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private lateinit var progressLayout:RelativeLayout
+    private lateinit var progressBar:ProgressBar
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.back, menu)
         return true
@@ -46,22 +49,29 @@ class ForgotpasswordActivity : AppCompatActivity() {
         edtEmailId = findViewById(R.id.edtEmailForgotPassword)
         btnnext = findViewById(R.id.btnNextFromForgotPassword)
         toolbar = findViewById(R.id.toolBarForgotpassword)
+        progressLayout = findViewById(R.id.progressLayoutForgotPassword)
+        progressBar = findViewById(R.id.progressBarForgotPassword)
+
+        progressLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
 
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Forgot Password"
         supportActionBar?.setLogo(R.drawable.ic_final_logo)
         val queue = Volley.newRequestQueue(this@ForgotpasswordActivity)
         val url = "http://13.235.250.119/v2/forgot_password/fetch_result"
-        val jsonPost = JSONObject()
+
         btnnext.setOnClickListener {
-            var mobileNumber = edtMobileNumber.toString()
-            var email = edtEmailId.toString()
-            if (mobileNumber.length > 9 ) {
+            val mobileNumber = edtMobileNumber.text.toString()
+            val email = edtEmailId.text.toString()
+            if (mobileNumber.length == 10 ) {
                 if (email.length >= 4) {
+                    val jsonPost = JSONObject()
                     jsonPost.put("mobile_number", mobileNumber)
                     jsonPost.put("email", email)
                     if (Connectionmanager().checkConnectivity(this@ForgotpasswordActivity as Context)){
-
+                        progressLayout.visibility = View.VISIBLE
+                        progressBar.visibility = View.VISIBLE
                         try {
                             val jsonObjectRequest =
                                 object :
@@ -78,9 +88,11 @@ class ForgotpasswordActivity : AppCompatActivity() {
                                                         this@ForgotpasswordActivity,
                                                         OtpVerificationActivity::class.java
                                                     )
+
                                                     intent.putExtra("first_try", true)
                                                     intent.putExtra("email",email)
                                                     intent.putExtra("mobile_number",mobileNumber)
+
                                                     startActivity(intent)
                                                     finish()
                                                 } else {
@@ -88,7 +100,11 @@ class ForgotpasswordActivity : AppCompatActivity() {
                                                         this@ForgotpasswordActivity,
                                                         OtpVerificationActivity::class.java
                                                     )
+
                                                     intent.putExtra("first_try", false)
+                                                    intent.putExtra("email",email)
+                                                    intent.putExtra("mobile_number",mobileNumber)
+
                                                     startActivity(intent)
                                                     finish()
                                                 }
@@ -166,8 +182,8 @@ class ForgotpasswordActivity : AppCompatActivity() {
     }
 
 
-    override fun onPause() {
-        super.onPause()
+    override fun onBackPressed() {
+        startActivity(Intent(this@ForgotpasswordActivity,LoginActivity::class.java))
         finish()
     }
 }

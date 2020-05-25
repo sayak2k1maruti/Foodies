@@ -32,13 +32,19 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var edtEnterName: EditText
     private lateinit var edtEnterEmail: EditText
     private lateinit var edtMobileNumberOfUser: EditText
-    private lateinit var edtDeliveryAddressOfUser: EditText
+    private lateinit var txtDeliveryAddressOfUser: TextView
     private lateinit var edtPasswordOfUser: EditText
     private lateinit var edtConfirmPasswordOfUser: EditText
     private lateinit var btnRegister: Button
     private lateinit var showPassword:ImageView
     private lateinit var progressLayout:RelativeLayout
     private lateinit var progressBar: ProgressBar
+    private lateinit var edtRegistrationAddressLine1:EditText
+    private lateinit var edtRegistrationAddressLine2:EditText
+    private lateinit var edtRegistrationAddressLine3:EditText
+    private lateinit var edtRegistrationAddressLine4:EditText
+    private lateinit var btnRegistrationAlAddress:Button
+    private lateinit var registrationAddressInput:LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +53,7 @@ class RegistrationActivity : AppCompatActivity() {
         edtEnterName = findViewById(R.id.edtEnterName)
         edtEnterEmail = findViewById(R.id.edtEnterEmail)
         edtMobileNumberOfUser = findViewById(R.id.edtMobileNumberOfUser)
-        edtDeliveryAddressOfUser = findViewById(R.id.edtDeliveryAddressOfUser)
+        txtDeliveryAddressOfUser = findViewById(R.id.txtDeliveryAddressOfUser)
         edtPasswordOfUser = findViewById(R.id.edtPasswordOfUser)
         edtConfirmPasswordOfUser = findViewById(R.id.edtConfirmPasswordOfUser)
         btnRegister = findViewById(R.id.btnRegister)
@@ -56,8 +62,17 @@ class RegistrationActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBarReg)
         progressLayout = findViewById(R.id.progressLayoutReg)
 
+        registrationAddressInput = findViewById(R.id.registrationAddressInput)
+        btnRegistrationAlAddress = findViewById(R.id.btnRegistrationAddressAllLines)
+        edtRegistrationAddressLine1 = findViewById(R.id.edtRegistrationAddressLine1)
+        edtRegistrationAddressLine2 = findViewById(R.id.edtRegistrationAddressLine2)
+        edtRegistrationAddressLine3 = findViewById(R.id.edtRegistrationAddressLine3)
+        edtRegistrationAddressLine4 = findViewById(R.id.edtRegistrationAddressLine4)
+
         progressLayout.visibility = View.GONE
         progressBar.visibility = View.GONE
+
+        registrationAddressInput.visibility = View.GONE
 
         setSupportActionBar(registrationActivityToolBar)
         supportActionBar?.title = "Register Here"
@@ -77,12 +92,31 @@ class RegistrationActivity : AppCompatActivity() {
             }
 
         }
+        txtDeliveryAddressOfUser.setOnClickListener {
+            registrationAddressInput.visibility = View.VISIBLE
+            progressLayout.visibility = View.VISIBLE
+            progressBar.visibility = View.VISIBLE
+
+        }
+        btnRegistrationAlAddress.setOnClickListener {
+            if ((edtRegistrationAddressLine1.text.toString().length > 3) && (edtRegistrationAddressLine4.text.toString().length == 6)){
+                val address:String = "${edtRegistrationAddressLine1.text.toString()}\n${edtRegistrationAddressLine2.text.toString()}\n${edtRegistrationAddressLine3.text.toString()}\n${edtRegistrationAddressLine4.text.toString()}"
+                txtDeliveryAddressOfUser.text = address
+                progressLayout.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                registrationAddressInput.visibility = View.GONE
+            }
+            else
+            {
+                Toast.makeText(this@RegistrationActivity,"Please fill up row 1 and row4 correctly",Toast.LENGTH_LONG).show()
+            }
+        }
         btnRegister.setOnClickListener {
 
             val name: String? = edtEnterName.text.toString()
             val email: String? = edtEnterEmail.text.toString()
             val mobilleNumber: String? = edtMobileNumberOfUser.text.toString()
-            val deliveryAddress: String? = edtDeliveryAddressOfUser.text.toString()
+            val deliveryAddress: String? = txtDeliveryAddressOfUser.text.toString()
             val password: String? = edtPasswordOfUser.text.toString()
             val confirmPassword: String? = edtConfirmPasswordOfUser.text.toString()
 
@@ -220,8 +254,8 @@ class RegistrationActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onBackPressed() {
+        startActivity(Intent(this@RegistrationActivity,LoginActivity::class.java))
         finish()
     }
 

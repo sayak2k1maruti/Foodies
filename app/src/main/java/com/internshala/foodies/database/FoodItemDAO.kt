@@ -18,4 +18,8 @@ interface FoodItemDAO {
 
     @Query("SELECT * FROM FoodItems WHERE id = :id")
     fun getFoodItemById(id:String):FoodItemEntity
+
+    @Query("DELETE  FROM FoodItems")
+    fun deleteAll()
+
 }

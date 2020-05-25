@@ -9,16 +9,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.internshala.foodies.R
-import com.internshala.foodies.activities.RestaurentMenu
+import com.internshala.foodies.activities.RestaurantMenu
 import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
-import com.internshala.foodies.fragments.FavouriteRestaurents
-import com.internshala.foodies.model.Restaurants
+import com.internshala.foodies.fragments.FavouriteRestaurants
 import com.squareup.picasso.Picasso
 
 class FavouriteViewAdapter(
@@ -38,7 +36,7 @@ class FavouriteViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_row_of_resturent_list, parent, false)
+            .inflate(R.layout.single_row_of_resturant_list, parent, false)
         return FavouriteViewHolder(view)
     }
 
@@ -65,7 +63,7 @@ class FavouriteViewAdapter(
         holder.imgHomefavouriteImage.setOnClickListener {
 
             DeleteFromFavourite(context, restaurant).execute().get()
-            favouritefragment.beginTransaction().replace(R.id.frameHome, FavouriteRestaurents())
+            favouritefragment.beginTransaction().replace(R.id.frameHome, FavouriteRestaurants())
                 .commit()
         }
         holder.parentLayout.setOnClickListener {
@@ -99,7 +97,7 @@ class FavouriteViewAdapter(
     }
     fun openMenu(id:String,name:String){
         /*function to open restaurentMenu*/
-        val intent = Intent(context, RestaurentMenu::class.java)
+        val intent = Intent(context, RestaurantMenu::class.java)
         intent.putExtra("id",id)
         intent.putExtra("name",name)
         context.startActivity(intent)

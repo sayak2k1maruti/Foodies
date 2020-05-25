@@ -3,26 +3,27 @@ package com.internshala.foodies.activities
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.internshala.foodies.R
-import com.internshala.foodies.adapter.FavouriteViewAdapter
 import com.internshala.foodies.adapter.FoodMenuAdapter
+import com.internshala.foodies.database.FoodItemDatabase
 import com.internshala.foodies.model.FoodMenu
 import com.internshala.foodies.util.Connectionmanager
 import org.json.JSONException
 
-class RestaurentMenu : AppCompatActivity() {
+class RestaurantMenu : AppCompatActivity() {
     private lateinit var toolbar:androidx.appcompat.widget.Toolbar
     private lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
     private lateinit var btnProceedToCart:Button
@@ -30,7 +31,7 @@ class RestaurentMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_restaurent_menu)
+        setContentView(R.layout.activity_restaurant_menu)
 
         toolbar = findViewById(R.id.toolbarRestaurentMenu)
         recyclerView = findViewById(R.id.recyclerViewOfFoodMenu)
@@ -43,10 +44,10 @@ class RestaurentMenu : AppCompatActivity() {
         if(intent != null){
             supportActionBar?.title = intent.getStringExtra("name")
             val nameOfRestaurant = intent.getStringExtra("name")
-            val queue = Volley.newRequestQueue(this@RestaurentMenu)
+            val queue = Volley.newRequestQueue(this@RestaurantMenu)
             val id = intent.getStringExtra("id")
             val url = "http://13.235.250.119/v2/restaurants/fetch_result/${id}"
-            if (Connectionmanager().checkConnectivity(this@RestaurentMenu as Context)){
+            if (Connectionmanager().checkConnectivity(this@RestaurantMenu as Context)){
                 try {
                     val jsonObjectRequest =
                         object :
@@ -65,10 +66,10 @@ class RestaurentMenu : AppCompatActivity() {
 
                                         foodMenuList.add(foodMenu)
                                     }
-                                    recyclerView.layoutManager = LinearLayoutManager(this@RestaurentMenu)
-                                    recyclerView.adapter = FoodMenuAdapter(foodMenuList,this@RestaurentMenu,btnProceedToCart)
+                                    recyclerView.layoutManager = LinearLayoutManager(this@RestaurantMenu)
+                                    recyclerView.adapter = FoodMenuAdapter(foodMenuList,this@RestaurantMenu,btnProceedToCart)
                                 }else{
-                                    Toast.makeText(this@RestaurentMenu,"Some unexpected Error occurs",Toast.LENGTH_SHORT)
+                                    Toast.makeText(this@RestaurantMenu,"Some unexpected Error occurs",Toast.LENGTH_SHORT)
                                         .show()
                                 }
                             },
@@ -85,7 +86,7 @@ class RestaurentMenu : AppCompatActivity() {
                         }
                     queue.add(jsonObjectRequest)
                 }catch (e : JSONException){
-                    Toast.makeText(this@RestaurentMenu,"Some unexpected Error occurs",Toast.LENGTH_SHORT)
+                    Toast.makeText(this@RestaurantMenu,"Some unexpected Error occurs",Toast.LENGTH_SHORT)
                         .show()
                 }
 
@@ -93,7 +94,7 @@ class RestaurentMenu : AppCompatActivity() {
 
 
             }else{
-                AlertDialog.Builder(this@RestaurentMenu as Context)
+                AlertDialog.Builder(this@RestaurantMenu as Context)
                     .setTitle("Error")
                     .setMessage("No Internet Connection")
                     .setPositiveButton("Open Setting") { text, listener ->
@@ -107,7 +108,7 @@ class RestaurentMenu : AppCompatActivity() {
                     .show()
             }
             btnProceedToCart.setOnClickListener {
-                val intent = Intent(this@RestaurentMenu,Cart::class.java)
+                val intent = Intent(this@RestaurantMenu,Cart::class.java)
                 intent.putExtra("name",nameOfRestaurant)
                 startActivity(intent)
             }
@@ -121,4 +122,18 @@ class RestaurentMenu : AppCompatActivity() {
         return true
     }
 
+    override fun onBackPressed() {
+        /*All cart is deleted from database*/
+        DeleteAllCart(this@RestaurantMenu).execute().get()
+        super.onBackPressed()
+    }
+
+    class DeleteAllCart(val context: Context):AsyncTask<Void,Void,Boolean>(){
+        override fun doInBackground(vararg params: Void?): Boolean {
+            val db = Room.databaseBuilder(context, FoodItemDatabase::class.java,"cart").build()
+            db.foodItemDAO().deleteAll()
+            return true
+        }
+
+    }
 }

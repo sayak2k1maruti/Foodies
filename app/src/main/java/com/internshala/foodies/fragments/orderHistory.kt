@@ -50,7 +50,8 @@ class orderHistory : Fragment() {
         val userId = sharedPreferences?.getString("user_id","1")
         val previousOrdersList:ArrayList<PreviousOrders> = arrayListOf()
         val url = "http://13.235.250.119/v2/orders/fetch_result/${userId}"
-        if (Connectionmanager().checkConnectivity(activity as Context)) {
+        if(activity!=null){
+            if (Connectionmanager().checkConnectivity(activity as Context)) {
                 try {
                     val jsonObjectRequest =
                         object :
@@ -91,10 +92,10 @@ class orderHistory : Fragment() {
                                         .show()
                                 }
                             },
-                            Response.ErrorListener {
-                                Toast.makeText(activity,"Some unexpected Volley error Occurs",Toast.LENGTH_LONG)
-                                    .show()
-                            }){
+                                Response.ErrorListener {
+                                    Toast.makeText(activity,"Some unexpected Volley error Occurs",Toast.LENGTH_LONG)
+                                        .show()
+                                }){
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
                                 headers["Content-type"] = "application/json"
@@ -117,23 +118,26 @@ class orderHistory : Fragment() {
                         .create()
                         .show()
                 }
-        }else{
-            /*if there is no internet Connection*/
-            AlertDialog.Builder(activity as Context)
-                .setTitle("Error")
-                .setMessage("No Internet Connection")
-                .setPositiveButton("Open Setting") { text, listener ->
-                    startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+            }else{
+                /*if there is no internet Connection*/
+                AlertDialog.Builder(activity as Context)
+                    .setTitle("Error")
+                    .setMessage("No Internet Connection")
+                    .setPositiveButton("Open Setting") { text, listener ->
+                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
 
-                }
-                .setNegativeButton("Exit") { text, listener ->
-                    activity?.finishAffinity()
-                }
-                .create()
-                .show()
+                    }
+                    .setNegativeButton("Exit") { text, listener ->
+                        activity?.finishAffinity()
+                    }
+                    .create()
+                    .show()
+            }
         }
+
 
             return view
     }
+
 
 }

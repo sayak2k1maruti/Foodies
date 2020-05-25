@@ -23,8 +23,5 @@ class OrderPlaced : AppCompatActivity() {
     override fun onBackPressed() {
 
     }
-    override fun onPause() {
-        super.onPause()
-        finish()
-    }
+
 }

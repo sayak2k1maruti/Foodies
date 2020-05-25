@@ -32,7 +32,7 @@ import kotlin.collections.HashMap
 /**
  * A simple [Fragment] subclass.
  */
-class Home : Fragment() {
+class HomeFragment : Fragment() {
 
     val restaurantLists: ArrayList<Restaurants> = arrayListOf()
     var displayList: ArrayList<Restaurants> = arrayListOf()
@@ -77,93 +77,97 @@ class Home : Fragment() {
 
         setHasOptionsMenu(true)
 
-        if (Connectionmanager().checkConnectivity(activity as Context)) {
 
-            try {
+            if (Connectionmanager().checkConnectivity(activity as Context)) {
+
+                try {
 
 
-                val queue = Volley.newRequestQueue(activity as Context)
-                val url = "http://13.235.250.119/v2/restaurants/fetch_result/"
+                    val queue = Volley.newRequestQueue(activity as Context)
+                    val url = "http://13.235.250.119/v2/restaurants/fetch_result/"
 
-                val jsonObjectRequest =
-                    object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
-                        val success = it.getJSONObject("data").getBoolean("success")
-                        if (success) {
+                    val jsonObjectRequest =
+                        object : JsonObjectRequest(Request.Method.GET, url, null, Response.Listener {
+                            val success = it.getJSONObject("data").getBoolean("success")
+                            if (success) {
 
-                            val restaurants: JSONArray =
-                                it.getJSONObject("data").getJSONArray("data")
-                            for (i in 0 until restaurants.length()) {
-                                val restaurantDetails = restaurants.getJSONObject(i)
-                                val data = Restaurants(
-                                    restaurantDetails.getString("id"),
-                                    restaurantDetails.getString("name"),
-                                    restaurantDetails.getString("rating"),
-                                    restaurantDetails.getString("cost_for_one"),
-                                    restaurantDetails.getString("image_url")
-                                )
-                                restaurantLists.add(data)
+                                val restaurants: JSONArray =
+                                    it.getJSONObject("data").getJSONArray("data")
+                                for (i in 0 until restaurants.length()) {
+                                    val restaurantDetails = restaurants.getJSONObject(i)
+                                    val data = Restaurants(
+                                        restaurantDetails.getString("id"),
+                                        restaurantDetails.getString("name"),
+                                        restaurantDetails.getString("rating"),
+                                        restaurantDetails.getString("cost_for_one"),
+                                        restaurantDetails.getString("image_url")
+                                    )
+                                    restaurantLists.add(data)
+                                }
+                            } else {
+                                Toast.makeText(
+                                    activity as Context,
+                                    "Some unexpected Error Occurs",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        } else {
-                            Toast.makeText(
-                                activity as Context,
-                                "Some unexpected Error Occurs",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
+
+                            /*Adapter and LayoutManager of RecyclerView is declared*/
+                            displayList = restaurantLists
+
+                            adapter = HomeViewAdapter(displayList, activity as Context)
+                            recycleViewOfResturents.adapter =
+                                adapter
+                            recycleViewOfResturents.layoutManager =
+                                LinearLayoutManager(activity as Context)
+                            homeProgressBar.visibility = View.GONE
+                            homeProgressLayout.visibility = View.GONE
+                        },
+                            Response.ErrorListener {
+
+                            }) {
+                            override fun getHeaders(): MutableMap<String, String> {
+                                val headers = HashMap<String, String>()
+                                headers["Content-type"] = "application/json"
+                                headers["token"] = "f483c3c822da32"
+                                return headers
+                            }
                         }
+                    queue.add(jsonObjectRequest)
+                } catch (e: JSONException) {
+                    /*If some Json Error Occurs*/
+                    AlertDialog.Builder(activity as Context)
+                        .setTitle("Error")
+                        .setMessage("Some Unexpected Error Occurs")
+                        .setPositiveButton("Exit") { text, listener ->
+                            activity?.finishAffinity()
 
-
-                        /*Adapter and LayoutManager of RecyclerView is declared*/
-                        displayList = restaurantLists
-                        adapter = HomeViewAdapter(displayList, activity as Context)
-                        recycleViewOfResturents.adapter =
-                            adapter
-                        recycleViewOfResturents.layoutManager =
-                            LinearLayoutManager(activity as Context)
-                        homeProgressBar.visibility = View.GONE
-                        homeProgressLayout.visibility = View.GONE
-                    },
-                        Response.ErrorListener {
-
-                        }) {
-                        override fun getHeaders(): MutableMap<String, String> {
-                            val headers = HashMap<String, String>()
-                            headers["Content-type"] = "application/json"
-                            headers["token"] = "f483c3c822da32"
-                            return headers
                         }
-                    }
-                queue.add(jsonObjectRequest)
-            } catch (e: JSONException) {
-                /*If some Json Error Occurs*/
+                        .create()
+                        .show()
+
+                }
+
+            } else {
+
+                /*if there is no internet Connection*/
                 AlertDialog.Builder(activity as Context)
                     .setTitle("Error")
-                    .setMessage("Some Unexpected Error Occurs")
-                    .setPositiveButton("Exit") { text, listener ->
-                        activity?.finishAffinity()
+                    .setMessage("No Internet Connection")
+                    .setPositiveButton("Open Setting") { text, listener ->
+                        startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
 
+                    }
+                    .setNegativeButton("Exit") { text, listener ->
+                        activity?.finishAffinity()
                     }
                     .create()
                     .show()
 
             }
 
-        } else {
 
-            /*if there is no internet Connection*/
-            AlertDialog.Builder(activity as Context)
-                .setTitle("Error")
-                .setMessage("No Internet Connection")
-                .setPositiveButton("Open Setting") { text, listener ->
-                    startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS))
-
-                }
-                .setNegativeButton("Exit") { text, listener ->
-                    activity?.finishAffinity()
-                }
-                .create()
-                .show()
-
-        }
 
         return homeFragment
     }

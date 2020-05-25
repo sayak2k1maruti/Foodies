@@ -20,7 +20,7 @@ class OrderHistoryAdapter (val context: Context,val dataList:List<PreviousOrders
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderHistoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_ordered_restaurent, parent, false)
+            .inflate(R.layout.single_ordered_restaurant, parent, false)
         return OrderHistoryViewHolder(view)
     }
 

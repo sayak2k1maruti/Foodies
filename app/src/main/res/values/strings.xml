@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FoodiesFinal</string>
+    <string name="app_name">Foodies</string>
     <string name="home">Home</string>
     <string name="my_profile">My profile</string>
     <string name="favourite_resturant">Favourite Restaurant</string>
@@ -22,7 +22,7 @@
     <string name="email_address">EmailAddress</string>
     <string name="mobile_number">MobileNumber</string>
     <string name="delivery_address">DelevaryAddress</string>
-    <string name="password_min_4">Passwors(Min 4)</string>
+    <string name="passwoard_min_4">Password(Min 4)</string>
     <string name="confirm_password">ConfirmPassword</string>
     <string name="register">REGISTER</string>
     <string name="next">NEXT</string>
@@ -36,4 +36,6 @@
     <string name="order_placed">Your order has been placed successfully</string>
     <string name="your_previous_order">Your previous orders are listed below:</string>
     <string name="search_restaurant">Search Restaurant</string>
+    <string name="houseno_locality">HouseNo./Locality</string>
+    <string name="city_village_town">City/Village/Town</string>
 </resources>

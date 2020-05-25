@@ -1,8 +1,10 @@
 package com.internshala.foodies.activities
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
@@ -10,13 +12,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.tabs.TabLayout
 import com.internshala.foodies.fragments.*
 import com.internshala.foodies.R
 
 class HomePage : AppCompatActivity() {
+
     lateinit var drawerLayout: DrawerLayout
     lateinit var toolbarHome: androidx.appcompat.widget.Toolbar
     lateinit var frameHomePage: FrameLayout
@@ -29,6 +34,8 @@ class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
+
+        /*connectiong kotlin file with xml*/
         toolbarHome = findViewById(R.id.toolbarHome)
         frameHomePage = findViewById(R.id.frameHome)
         navigationDrawerHome = findViewById(R.id.navigationDrawerHome)
@@ -37,12 +44,17 @@ class HomePage : AppCompatActivity() {
         txtHeaderUserPhoneNumber =headerView.findViewById(R.id.txtHeaderUserPhoneNumber)
         txtHeaderUserName = headerView.findViewById(R.id.txtHeaderUserName)
         txtUserProfile = headerView.findViewById(R.id.txtUserProfile)
-
         tabLayout = findViewById(R.id.tabLayout)
+
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(p0: TabLayout.Tab?) {
-
+                val tab = p0?.position
+                when(tab){
+                    0 -> openHomeFragment()
+                    1 -> openFavouriteResturentFragment()
+                    2 -> openOrderHistoryFragment()
+                }
             }
 
             override fun onTabUnselected(p0: TabLayout.Tab?) {
@@ -73,6 +85,7 @@ class HomePage : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(navigationDrawerToggle)      /*click listener to HamBurger Button*/
         navigationDrawerToggle.syncState()      /*to sync drawer with hamburger icon*/
+
         openHomeFragment()
 
         txtHeaderUserPhoneNumber.text = getSharedPreferences("logInDetails", Context.MODE_PRIVATE).getString("mobile_number","123456798")
@@ -96,8 +109,10 @@ class HomePage : AppCompatActivity() {
             when (it.itemId) {
                 /*click listerner to menu items*/
                 R.id.menuHome -> {
-                    openHomeFragment()
+                    tabLayout.getTabAt(0)!!.select()
+                        /*it will also run openHomeFragment()*/
                     drawerLayout.closeDrawers()
+
                 }
                 R.id.menumyProfile -> {
                     openmyProfileFragment()
@@ -108,11 +123,15 @@ class HomePage : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuFavourite -> {
-                    openFavouriteResturentFragment()
+                    tabLayout.getTabAt(1)!!.select()
+                    /*it will also run openFavouriteResturentFragment()*/
+
                     drawerLayout.closeDrawers()
                 }
                 R.id.menuOrderHistory -> {
-                    openOrderHistoryFragment()
+                    tabLayout.getTabAt(2)!!.select()
+                    /*It will also run openOrderHisory()*/
+
                     drawerLayout.closeDrawers()
                 }
                 R.id.contactDeveloper ->{
@@ -161,11 +180,14 @@ class HomePage : AppCompatActivity() {
 
 
     private fun openHomeFragment() {
+
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frameHome, Home()).commit()
-        supportActionBar?.title = "All Resturent"
+            .replace(R.id.frameHome, HomeFragment()).commit()
+        supportActionBar?.title = "All Restaurant"
         navigationDrawerHome.setCheckedItem(R.id.menuHome)
         tabLayout.visibility = View.VISIBLE
+
+
     }
 
     private fun openmyProfileFragment() {
@@ -177,18 +199,20 @@ class HomePage : AppCompatActivity() {
 
     private fun openFavouriteResturentFragment() {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.frameHome, FavouriteRestaurents()).commit()
+            .replace(R.id.frameHome, FavouriteRestaurants()).commit()
         supportActionBar?.title = "Favourite"
         tabLayout.visibility = View.VISIBLE
+
     }
 
     private fun openOrderHistoryFragment() {
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameHome, orderHistory()).commit()
         supportActionBar?.title = "History"
         tabLayout.visibility = View.VISIBLE
-    }
 
+    }
     private fun openFAQsFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameHome, FAQs()).commit()
@@ -199,7 +223,13 @@ class HomePage : AppCompatActivity() {
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.frameHome)
         when (fragment) {
-            !is Home -> openHomeFragment()
+                !is HomeFragment ->  {
+
+                    tabLayout.getTabAt(0)!!.select()
+
+                }
+
+
             else -> super.onBackPressed()
         }
     }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.View
 import android.widget.*
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,7 +25,10 @@ class OtpVerificationActivity : AppCompatActivity() {
     private lateinit var edtNewPassWordConfirmation: EditText
     private lateinit var txtAboutOTP: TextView
     private lateinit var btnNext: Button
-    private lateinit var imgShowPassword:ImageView
+    private lateinit var imgShowPassword: ImageView
+    private lateinit var progressLayout: RelativeLayout
+    private lateinit var progressBar: ProgressBar
+    private lateinit var mobileNumber: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +40,20 @@ class OtpVerificationActivity : AppCompatActivity() {
         txtAboutOTP = findViewById(R.id.txtAboutOTP)
         btnNext = findViewById(R.id.btnNextFromOTP)
         imgShowPassword = findViewById(R.id.imgShowNewPassword)
+        progressLayout = findViewById(R.id.progressLayoutOTPVerification)
+        progressBar = findViewById(R.id.progressBarOTPVerification)
+
+        progressLayout.visibility = View.GONE
+        progressBar.visibility = View.GONE
 
         var checkPasswordVisible = false
         imgShowPassword.setOnClickListener {
             /*code to make password visible or hidden*/
-            if(!checkPasswordVisible){
+            if (!checkPasswordVisible) {
                 edtNewPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
                 checkPasswordVisible = true
                 imgShowPassword.setImageResource(R.drawable.ic_hide_passwoard)
-            }else{
+            } else {
                 edtNewPassword.transformationMethod = PasswordTransformationMethod.getInstance()
                 checkPasswordVisible = false
                 imgShowPassword.setImageResource(R.drawable.ic_show_passwoard)
@@ -52,6 +61,8 @@ class OtpVerificationActivity : AppCompatActivity() {
         }
 
         if (intent != null) {
+
+            mobileNumber = intent.getStringExtra("mobile_number")!!.toString()
             if (intent.getBooleanExtra("first_try", false)) {
                 val email = intent.getStringExtra("email")
                 txtAboutOTP.text = "OTP is sent to ${email} successfully"
@@ -69,10 +80,18 @@ class OtpVerificationActivity : AppCompatActivity() {
                 val queue = Volley.newRequestQueue(this@OtpVerificationActivity)
                 val url = "http://13.235.250.119/v2/reset_password/fetch_result"
                 val jsonPost = JSONObject()
-                jsonPost.put("mobile_number", intent.getStringArrayExtra("mobile_number"))
+
+
+
+
+                jsonPost.put("mobile_number", mobileNumber)
                 jsonPost.put("password", newPassword)
                 jsonPost.put("otp", otp)
+
                 if (Connectionmanager().checkConnectivity(this@OtpVerificationActivity as Context)) {
+                    progressLayout.visibility = View.VISIBLE
+                    progressBar.visibility = View.VISIBLE
+
                     try {
                         val jsonObjectRequest =
                             object :
@@ -109,7 +128,10 @@ class OtpVerificationActivity : AppCompatActivity() {
                                             AlertDialog.Builder(this@OtpVerificationActivity)
                                                 .setTitle("Error")
                                                 .setMessage(data.getString("errorMessage"))
-                                                .setPositiveButton("TryAgain") { text, listener -> }
+                                                .setPositiveButton("TryAgain") { text, listener ->
+                                                    progressLayout.visibility = View.GONE
+                                                    progressBar.visibility = View.GONE
+                                                }
                                                 .setNegativeButton("Exit") { text, listener ->
                                                     finishAffinity()
                                                 }
@@ -133,6 +155,7 @@ class OtpVerificationActivity : AppCompatActivity() {
                                     return headers
                                 }
                             }
+                        queue.add(jsonObjectRequest)
                     } catch (e: JSONException) {
                         Toast.makeText(
                             this@OtpVerificationActivity,
@@ -163,5 +186,10 @@ class OtpVerificationActivity : AppCompatActivity() {
                     .show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this@OtpVerificationActivity, LoginActivity::class.java))
+        finish()
     }
 }

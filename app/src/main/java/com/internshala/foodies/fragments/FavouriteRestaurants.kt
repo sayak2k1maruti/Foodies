@@ -1,6 +1,5 @@
 package com.internshala.foodies.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
@@ -17,9 +16,8 @@ import com.internshala.foodies.R
 import com.internshala.foodies.adapter.FavouriteViewAdapter
 import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
-import kotlinx.android.synthetic.main.fragment_home.*
 
-class FavouriteRestaurents : Fragment() {
+class FavouriteRestaurants : Fragment() {
     private lateinit var recyclerViewOfFavouriteResrurentList:androidx.recyclerview.widget.RecyclerView
     private lateinit var homeprogressLayoutFavourite:RelativeLayout
     private lateinit var homeprogressBarFavourite:ProgressBar
@@ -28,7 +26,7 @@ class FavouriteRestaurents : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val favouriteFragment = inflater.inflate(R.layout.fragment_favourite_resturents, container, false)
+        val favouriteFragment = inflater.inflate(R.layout.fragment_favourite_resturants, container, false)
 
         recyclerViewOfFavouriteResrurentList = favouriteFragment.findViewById(R.id.recyclerViewOfFavouriteResrurentList)
         homeprogressBarFavourite = favouriteFragment.findViewById(R.id.homeprogressBarFavourite)

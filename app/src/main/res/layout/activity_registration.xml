@@ -130,13 +130,15 @@
                     android:background="#ffffff"
                     android:src="@drawable/locationsymbol" />
 
-                <EditText
-                    android:id="@+id/edtDeliveryAddressOfUser"
+                <TextView
+                    android:id="@+id/txtDeliveryAddressOfUser"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#ffffff"
                     android:hint="@string/delivery_address"
                     android:inputType="textPostalAddress"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
                     android:maxLength="50"
                     android:padding="6dp" />
             </LinearLayout>
@@ -167,7 +169,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="80"
                     android:background="#ffffff"
-                    android:hint="@string/password_min_4"
+                    android:hint="@string/passwoard_min_4"
                     android:inputType="textPassword"
                     android:maxLength="15"
                     android:maxLines="1"
@@ -320,5 +322,59 @@
             android:layout_centerInParent="true"
             />
     </RelativeLayout>
+<LinearLayout
+    android:id="@+id/registrationAddressInput"
+    android:visibility="gone"
+    android:layout_centerInParent="true"
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FD4FF9">
+    <EditText
+        android:id="@+id/edtRegistrationAddressLine1"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="@string/houseno_locality"
+        android:textSize="18sp"
+        android:background="@drawable/rounded_edge_white"
+        android:layout_marginTop="10dp"
 
+        />
+    <EditText
+        android:id="@+id/edtRegistrationAddressLine2"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="@string/city_village_town"
+        android:textSize="18sp"
+        android:background="@drawable/rounded_edge_white"
+        android:layout_marginTop="15dp"/>
+    <EditText
+        android:id="@+id/edtRegistrationAddressLine3"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:hint="District"
+        android:textSize="18sp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rounded_edge_white"/>
+    <EditText
+        android:id="@+id/edtRegistrationAddressLine4"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:hint="PinCode"
+        android:inputType="number"
+        android:background="@drawable/rounded_edge_white"
+        android:layout_marginBottom="15dp"/>
+    <Button
+        android:id="@+id/btnRegistrationAddressAllLines"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:text="Ok"
+        android:textColor="#ffffff"
+        android:background="@drawable/roundededge"/>
+</LinearLayout>
 </RelativeLayout>

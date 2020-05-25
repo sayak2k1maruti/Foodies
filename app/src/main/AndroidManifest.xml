@@ -20,7 +20,7 @@
         <activity android:name=".activities.Cart"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".activities.RestaurentMenu"
+        <activity android:name=".activities.RestaurantMenu"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".activities.OtpVerificationActivity"
@@ -45,9 +45,7 @@
         <activity android:name=".activities.HomePage"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
-        <activity android:name=".activities.MainActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"/>
+
     </application>
 
 </manifest>

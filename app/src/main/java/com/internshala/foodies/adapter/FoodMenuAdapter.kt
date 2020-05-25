@@ -20,8 +20,10 @@ import com.internshala.foodies.model.FoodMenu
 
 class FoodMenuAdapter(val foodMenuList: ArrayList<FoodMenu>, val context: Context,val btnAddtocart:Button) :
     RecyclerView.Adapter<FoodMenuAdapter.FoodMenuViewHolder>() {
-    var count = 0
+    var count = 0 /*a variable that will indicate if anything is adde4d to cart or not*/
+
     class FoodMenuViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         val serialNumber: TextView = view.findViewById(R.id.menuSerialNum)
         val itemName: TextView = view.findViewById(R.id.txtItemName)
         val price: TextView = view.findViewById(R.id.txtCostForFooditem)
@@ -54,6 +56,7 @@ class FoodMenuAdapter(val foodMenuList: ArrayList<FoodMenu>, val context: Contex
                 holder.btnAddToCart.setText(R.string.remove)
                 CartManagement(context,foodItemEntity,1).execute().get()
                 val color = ContextCompat.getColor(context, R.color.colorAccent)
+
                 count+=1
                 btnAddtocart.visibility = View.VISIBLE
                 holder.btnAddToCart.setBackgroundColor(color)
@@ -61,6 +64,7 @@ class FoodMenuAdapter(val foodMenuList: ArrayList<FoodMenu>, val context: Contex
                 holder.btnAddToCart.setText(R.string.add)
                 count-=1
                 CartManagement(context,foodItemEntity,2).execute().get()
+
                 if (count == 0){
                     btnAddtocart.visibility = View.GONE
                 }

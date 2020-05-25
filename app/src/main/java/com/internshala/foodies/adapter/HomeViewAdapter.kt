@@ -12,7 +12,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.internshala.foodies.R
-import com.internshala.foodies.activities.RestaurentMenu
+import com.internshala.foodies.activities.RestaurantMenu
 import com.internshala.foodies.database.RestaurantsDatabase
 import com.internshala.foodies.database.RestaurantsEntity
 import com.internshala.foodies.model.Restaurants
@@ -54,7 +54,7 @@ class HomeViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.single_row_of_resturent_list, parent, false)
+            .inflate(R.layout.single_row_of_resturant_list, parent, false)
 
         return HomeViewHolder(
             view
@@ -147,7 +147,7 @@ class HomeViewAdapter(
 
     fun openMenu(id:String,name:String){
         /*function to open restaurentMenu*/
-        val intent = Intent(context,RestaurentMenu::class.java)
+        val intent = Intent(context,RestaurantMenu::class.java)
         intent.putExtra("id",id)
         intent.putExtra("name",name)
         context.startActivity(intent)
